@@ -50,4 +50,13 @@ class UserController extends Controller
             return ResponseCode::errorPost('Failed create blog', $response);
         }
     }
+
+    public function getBlogById($id){
+        $response = $this->blogService->getdataById($id);
+        if($response['status']){
+            return ResponseCode::successGet('Successfully get blog', $response['data']);
+        }else{
+            return ResponseCode::errorPost('Failed get blog');
+        }
+    }
 }

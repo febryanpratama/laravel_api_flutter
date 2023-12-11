@@ -43,5 +43,20 @@ class BlogService {
 
         
     }
+
+    static function getdataById($id){
+        $data = Blog::find($id);
+        if($data){
+            return [
+                'status' => true,
+                'data' => $data
+            ];
+        }else{
+            return [
+                'status' => false,
+                'data' => 'Data not found'
+            ];
+        }
+    }
     
 }
