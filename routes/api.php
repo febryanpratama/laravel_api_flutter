@@ -34,7 +34,7 @@ Route::group([
     'middleware' => ['auth:sanctum','abilities:user']
 ], function(){
     Route::prefix('blog')->group(function(){
-        // Route::get('/', 'getBlog');
+        Route::get('/', 'getBlog');
         Route::post('/', 'createBlog');
         Route::get('/{id}', 'getBlogById');
     });
