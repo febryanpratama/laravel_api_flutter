@@ -66,7 +66,7 @@ class UserController extends Controller
             'title' => 'required',
             'content' => 'required',
             'author' => 'required',
-            'status' => 'required|in:Published,Draft',
+            'status' => 'required|in:published,draft',
         ]);
 
         if($validator->fails()){
@@ -74,5 +74,7 @@ class UserController extends Controller
         }
 
         $response = $this->blogService->updateData($request->all());
+
+        return ResponseCode::successPost('Successfully update blog', $response);
     }
 }
