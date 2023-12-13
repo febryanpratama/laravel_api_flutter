@@ -58,5 +58,22 @@ class BlogService {
             ];
         }
     }
+
+    static function updateData($data){
+        $data = Blog::find($data['id']);
+       
+        $data->update([
+            'title' => $data['title'],
+            'content' => $data['content'],
+            'author' => $data['author'],
+            'status' => $data['status'],
+            'published_at' => $data['status'] == 'Published' ? Carbon::parse($data['published_at']) : NULL,
+        ]);
+
+        return [
+            'status' => true,
+            'data' => $data
+        ];
+    }
     
 }

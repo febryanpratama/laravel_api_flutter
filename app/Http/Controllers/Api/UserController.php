@@ -59,4 +59,20 @@ class UserController extends Controller
             return ResponseCode::errorPost('Failed get blog');
         }
     }
+
+    public function updateBlog(Request $request){
+        $validator = Validator::make($request->all(), [
+            'id' => 'required|exists:blogs,id',
+            'title' => 'required',
+            'content' => 'required',
+            'author' => 'required',
+            'status' => 'required|in:Published,Draft',
+        ]);
+
+        if($validator->fails()){
+            return ResponseCode::errorPost($validator->errors()->first());
+        }
+
+        $response = $this->blogService->updateData($request->all());
+    }
 }

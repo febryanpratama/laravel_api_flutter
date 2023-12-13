@@ -37,5 +37,6 @@ Route::group([
         Route::get('/', 'getBlog');
         Route::post('/', 'createBlog');
         Route::get('/{id}', 'getBlogById');
+        Route::put('/', 'updateBlog');
     });
 });
