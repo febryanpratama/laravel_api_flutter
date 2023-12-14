@@ -60,20 +60,31 @@ class BlogService {
     }
 
     static function updateData($data){
-        $data = Blog::find($data['id']);
-       
-        $data->update([
-            'title' => $data['title'],
-            'content' => $data['content'],
-            'author' => $data['author'],
-            'status' => $data['status'],
-            'published_at' => $data['status'] == 'published' ? Carbon::parse($data['published_at']) : NULL,
-        ]);
+        try {
+            $data = Blog::find($data['id']);
 
-        return [
-            'status' => true,
-            'data' => $data
-        ];
+            $data->update([
+                'title' => $data['title'],
+                'content' => $data['content'],
+                'author' => $data['author'],
+                'status' => $data['status'],
+                'published_at' => $data['status'] == 'published' ? Carbon::parse($data['published_at']) : NULL,
+            ]);
+    
+            return [
+                'status' => true,
+                'message' => 'Successfully update blog'
+            ];
+            //code...
+        } catch (\Throwable $th) {
+            //throw $th;
+
+            return [
+                'status' => false,
+                'message' => $th->getMessage()
+            ];
+        }
+       
     }
     
 }

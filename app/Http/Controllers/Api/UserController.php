@@ -75,6 +75,10 @@ class UserController extends Controller
 
         $response = $this->blogService->updateData($request->all());
 
-        return ResponseCode::successPost('Successfully update blog', $response);
+        if(!$response['status']){
+            return ResponseCode::errorPost($response['message']);
+        }else{
+            return ResponseCode::successPost('Successfully update blog', NULL);
+        }
     }
 }
