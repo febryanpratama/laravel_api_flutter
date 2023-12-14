@@ -61,15 +61,16 @@ class BlogService {
 
     static function updateData($data){
         try {
-            $data = Blog::find($data['id']);
 
-            $data->update([
+            $data = Blog::where('id', $data['id'])->update([
                 'title' => $data['title'],
                 'content' => $data['content'],
                 'author' => $data['author'],
                 'status' => $data['status'],
-                'published_at' => $data['status'] == 'published' ? Carbon::parse($data['published_at']) : NULL,
+                'published_at' => $data['status'] == 'published' ? Carbon::now() : NULL,
             ]);
+
+            // dd($data);
     
             return [
                 'status' => true,

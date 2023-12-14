@@ -73,6 +73,7 @@ class UserController extends Controller
             return ResponseCode::errorPost($validator->errors()->first());
         }
 
+        // dd($request->all());
         $response = $this->blogService->updateData($request->all());
 
         if(!$response['status']){
