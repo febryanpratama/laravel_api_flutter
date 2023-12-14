@@ -25,7 +25,7 @@ class BlogService {
                 'content' => $data['content'],
                 'author' => $data['author'],
                 'status' => $data['status'],
-                'published_at' => Carbon::parse($data['published_at']),
+                'published_at' => $data['status'] == 'published' ? Carbon::now() : NULL,
             ]);
 
             return [
