@@ -18,9 +18,15 @@ class UserController extends Controller
     }
 
     public function getBlog(Request $request){
+        // dd($request->all());
 
         $response = $this->blogService->getdata($request->all());
-        return ResponseCode::successGet('Successfully get blogs', $response);
+
+        if($response['status']){
+            return ResponseCode::successGet('Successfully get blogs', $response['data']);
+        }else{
+            return ResponseCode::errorPost('Failed get blogs');
+        }
     }
 
     // public function getBlogById(Request $request, $id){

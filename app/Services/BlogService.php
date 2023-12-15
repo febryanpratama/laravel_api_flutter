@@ -10,9 +10,38 @@ class BlogService {
     public function getdata($param)
     {
         # code...
-        $data = Blog::get();
+        
+        if(isset($param['status']) || isset($param['date']) || isset($param['author'])){
+            $stats = $param['status'] == "yes" ? "asc" : "desc";
+            $author = $param['author'] == "yes" ? "asc" : "desc";
 
-        return $data;
+            $data = Blog::with('user')->where(function($y) use ($param){
+                if($param['date'] == "today"){
+                    $y->whereDate("created_at", Carbon::today());
+                }else if($param['date'] == "week"){
+                    $y->whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()]);
+                }else if($param['date'] == "month"){
+                    $y->whereMonth('created_at', Carbon::now()->month);
+                }else if($param['date'] == "year"){
+                    $y->whereYear('created_at', Carbon::now()->year);
+                }else{
+                    $y->orderBy('created_at', 'ASC');
+                }   
+            })
+            ->orderBy('status', $stats)
+            ->orderBy('author', $author)
+            ->get();
+            
+            return [
+                'status' => true,
+                'data' => $data
+            ];
+        }
+
+        return [
+            'status' => false,
+            'message' => 'Please input status, date, or author'
+        ];
     }
 
     public function createData($data){
