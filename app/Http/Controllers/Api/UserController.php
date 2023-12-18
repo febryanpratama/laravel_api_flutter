@@ -87,4 +87,24 @@ class UserController extends Controller
             return ResponseCode::successPost('Successfully update blog', NULL);
         }
     }
+
+
+    public function createComment(Request $request){
+        // dd($request->all());
+        $validator = Validator::make($request->all(), [
+            'blog_id' => 'required|exists:blogs,id',
+            'comment' => 'required',
+        ]);
+
+        if($validator->fails()){
+            return ResponseCode::errorPost($validator->errors()->first());
+        }
+
+        $response = $this->blogService->createComment($request->all());
+
+        if($response['status']){
+            return ResponseCode::successPost('Successfully create comment', $response);
+        }
+        return ResponseCode::errorPost('Failed create comment');
+    }
 }

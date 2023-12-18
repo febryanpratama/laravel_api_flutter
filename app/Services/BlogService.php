@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Blog;
+use App\Models\Comment;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
@@ -74,7 +75,8 @@ class BlogService {
     }
 
     static function getdataById($id){
-        $data = Blog::find($id);
+        $data = Blog::with('comments')->where('id', $id)->first();
+        
         if($data){
             return [
                 'status' => true,
@@ -115,6 +117,28 @@ class BlogService {
             ];
         }
        
+    }
+
+    static function createComment($data){
+        try {
+            $data = Comment::create([
+                'blog_id' => $data['blog_id'],
+                'user_id' => auth('sanctum')->user()->id,
+                'comment' => $data['comment'],
+            ]);
+
+            return [
+                'status' => true,
+                'data' => $data
+            ];
+
+        } catch (\Throwable $th) {
+            dd($th->getMessage());
+            return [
+                'status' => false,
+                'data' => $th->getMessage()
+            ];
+        }
     }
     
 }

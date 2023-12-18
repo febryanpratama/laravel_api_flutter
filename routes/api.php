@@ -38,5 +38,9 @@ Route::group([
         Route::post('/', 'createBlog');
         Route::get('/{id}', 'getBlogById');
         Route::put('/', 'updateBlog');
+
+        Route::prefix('comment')->group(function(){
+            Route::post('/', 'createComment');
+        });
     });
 });
